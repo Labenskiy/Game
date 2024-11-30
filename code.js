@@ -1,5 +1,30 @@
 let currentUser = null;
 
+// Функция для создания снежинок
+function createSnowflakes() {
+    const snowflakeCount = Math.floor(window.innerWidth / 15); // Количество снежинок в зависимости от ширины окна
+
+    for (let i = 0; i < snowflakeCount; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.className = 'snowflake';
+        document.body.appendChild(snowflake);
+
+        // Устанавливаем случайную позицию и анимацию
+        snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        snowflake.style.animationDuration = Math.random() * (3 -1) +1 + 's'; // Случайная скорость
+        snowflake.style.opacity = Math.random(); // Случайная прозрачность
+    }
+}
+
+// Запускаем функцию при загрузке страницы
+window.onload = createSnowflakes;
+
+// Перезапускаем снежинки при изменении размера окна
+window.onresize = () => {
+    document.querySelectorAll('.snowflake').forEach(snowflake => snowflake.remove());
+    createSnowflakes();
+};
+
 // Функция для регистрации нового пользователя
 async function register() {
     const username = document.getElementById('reg-username').value;

@@ -1,0 +1,20 @@
+[
+  {
+    "username": "Geek",
+    "password": "$2b$10$mMtgrp.i.mZXuGyl7Y.H1.dRsc9ccnKEEbSTE7kPmkxTTwWu0btIi",
+    "wishlist": "носки",
+    "giftLink": "ссылка"
+  },
+  {
+    "username": "Stanislav",
+    "password": "$2b$10$2nyW8f55fMYXpu.m7cwy8OcLRJ5obXMu8E4yfvBGPYOPezhARCv8O",
+    "wishlist": "кораблик",
+    "giftLink": "ссылка"
+  },
+  {
+    "username": "Olya",
+    "password": "$2b$10$d8AubWAeO.dkP73IzhNvqeo0Lb0ixCvAvAm9uAFYJIzdrQ481/HfW",
+    "wishlist": "Шапочку",
+    "giftLink": "ссылка"
+  }
+]

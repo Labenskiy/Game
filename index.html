@@ -45,8 +45,6 @@
 
 <div id="main-content" class="container hidden">
     <div id="user-info"></div>
-
-    <!-- Информационное окно -->
     <div id="info-window">
         <h2>Информация о Тайном Санте</h2>
         <div id="countdown">
@@ -63,26 +61,17 @@
             </ol>
         </div>
     </div>
-
-    <!-- Секция участников -->
     <div id="participants-section" class="hidden">
         <h2>Участники игры</h2>
         <div id="participants-list" class="participants-grid"></div>
     </div>
-
-    <!-- Секция правил -->
     <div id="rules-section" class="hidden">
         <h2>Правила игры "Тайный Санта"</h2>
-        <!-- Правила можно оставить здесь, если нужно -->
     </div>
-
-    <!-- Информация о клубе -->
     <div id="club-info">
         <h2>О кино-клубе "Одиссея"</h2>
         <p>Кино-клуб "Одиссея" - место встречи настоящих киноманов!</p>
         <p>Мы проводим еженедельные просмотры и обсуждения фильмов.</p>
-
-        <!-- Контактная информация -->
         <h3>Контакты:</h3>
         <ul class="contact-info">
             <li>📍 Адрес: г. Москва, ул. Киноманов, д. 10</li>
@@ -90,20 +79,15 @@
             <li>✉️ Email: odyssey.cinema@mail.ru</li>
             <li>🌐 Сайт: www.odyssey-cinema.ru</li>
         </ul>
-
-        <!-- Социальные ссылки -->
         <div class="social-links">
             <a href="#" class="social-icon">Instagram</a>
             <a href="#" class="social-icon">Telegram</a>
             <a href="#" class="social-icon">VK</a>
         </div>
     </div>
-
 </div>
 
-<!-- Перемещение чата в нижний угол -->
 <div id="chat">
-    <!-- Убедитесь, что класс не содержит hidden -->
     <h3>Чат участников</h3>
     <div id="chat-messages"></div>
     <input type="text" id="chat-input" placeholder="Введите сообщение">
@@ -111,48 +95,5 @@
 </div>
 
 <script src="./code.js"></script>
-
-<script>
-    // JavaScript код для регистрации и загрузки участников
-
-    async function register() {
-        const username = document.getElementById('reg-username').value;
-        const password = document.getElementById('reg-password').value; // Получаем пароль
-        const wishlist = document.getElementById('wishlist').value;
-
-        // Отправка данных на сервер
-        await fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password, wishlist }), // Отправляем пароль тоже
-        });
-
-        showMainContent();
-    }
-
-    async function loadParticipants() {
-        const response = await fetch('/participants');
-        const participants = await response.json();
-
-        const participantsList = document.getElementById('participants-list');
-        participantsList.innerHTML = ''; // Очистка списка
-
-        participants.forEach(participant => {
-            const participantCard = document.createElement('div');
-            participantCard.classList.add('participant-card');
-            participantCard.innerHTML = `
-           <h3>${participant.username}</h3>
-           <p>Вишлист: ${participant.wishlist}</p>`;
-            participantsList.appendChild(participantCard);
-        });
-    }
-
-    // Вызывайте loadParticipants() при загрузке страницы или после успешной регистрации
-    document.addEventListener("DOMContentLoaded", loadParticipants);
-</script>
-
 </body>
 </html>
-

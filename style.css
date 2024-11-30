@@ -1,9 +1,9 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-image: url('https://example.com/winter-background.jpg'); /* Замените на ваш фон с зимним пейзажем */
+    background-image: url('https://example.com/winter-background.jpg');
     background-size: cover;
     background-attachment: fixed;
-    color: #000; /* Устанавливаем черный цвет текста по умолчанию */
+    color: #000;
     margin: 0;
     padding: 0;
 }
@@ -15,13 +15,13 @@ header {
 }
 
 h1 {
-    color: #e74c3c; /* Праздничный цвет заголовка */
+    color: #e74c3c;
     font-size: 2.5em;
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 h2, h3 {
-    color: #000; /* Устанавливаем черный цвет для заголовков второго и третьего уровня */
+    color: #000;
 }
 
 .container {
@@ -36,86 +36,85 @@ h2, h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 100px); /* Уменьшаем высоту для учета заголовка */
+    height: calc(100vh - 100px);
 }
 
 .auth-form {
     background-color: rgba(44, 62, 80, 0.8);
     padding: 20px;
-    border-radius: 10px; /* Увеличиваем радиус скругления */
+    border-radius: 10px;
 }
 
 input,
 textarea {
     width: calc(100% - 22px);
-    padding: 15px; /* Увеличиваем отступы */
-    margin-bottom: 15px; /* Увеличиваем отступы между элементами */
-    border-radius: 5px; /* Увеличиваем радиус скругления */
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
 }
 
 button {
     background-color: #e74c3c;
     color: white;
-    padding: 12px; /* Увеличиваем отступы */
-    border-radius: 5px; /* Увеличиваем радиус скругления */
+    padding: 12px;
+    border-radius: 5px;
 }
 
 button:hover {
     background-color: #c0392b;
 }
 
-/* Стили для информационного окна */
 #info-window {
-    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.3); /* Тень для глубины */
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
 }
 
-/* Инструкции */
 .instructions {
-    margin-top: 15px; /* Отступ сверху для инструкции */
+    margin-top: 15px;
 }
 
 #chat {
-    position : fixed;
-    bottom :20 px;
-    right :20 px;
-    width :300 px;
-    height :auto;
-    max-height :400 px;
-    overflow-y :auto;
-    background-color :rgba(44 ,62 ,80 ,0.8); /* Полупрозрачный фон для чата */
-    border-radius :10 px;
-    padding :10 px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: rgba(44, 62, 80, 0.8);
+    border-radius: 10px;
+    padding: 10px;
 }
 
 #chat-messages {
-    height :200 px;
-    overflow-y :auto;
-    background-color :rgba(255 ,255 ,255 ,0.1);
-    border-radius :5 px;
-    padding :10 px;
+    height: 200px;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 10px;
 }
 
 #countdown {
-    text-align:center;
-    font-size :24 px;
+    text-align: center;
+    font-size: 24px;
 }
 
 .hidden {
-    display:none; /* Скрытие элементов */
+    display: none;
 }
 
 .participants-grid {
-    display:flex;
-    flex-wrap :wrap;
-    gap :20 px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
+
 .participant-card {
-    background-color :rgba(255 ,255 ,255 ,0.1);
-    border-radius :10 px;
-    padding :15 px;
-    text-align :center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
 }

@@ -1,95 +1,70 @@
 const express = require('express');
-const axios = require('axios');
-const fs = require('fs');
-const bodyParser = require('body-parser');
+const fs = require('fs').promises;
 const path = require('path');
-const bcrypt = require('bcrypt'); // Для хэширования паролей
+const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const clientId = 'f7b16acee6de462d97b884db5332b36d';
-const clientSecret = 'bd91e91206db4c79afdf24b4b6f5d2ba';
-const redirectUri = 'https://labenskiy.github.io/Odyssey/';
-let accessToken;
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname)));
 
-app.use(bodyParser.json()); // Для обработки JSON запросов
-app.use(express.static(path.join(__dirname))); // Для обслуживания статических файлов
-
-// Обработка корневого URL
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html')); // Путь к вашему HTML-файлу
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Регистрация нового участника
 app.post('/register', async (req, res) => {
-    const { username, password, wishlist } = req.body; // Получаем данные из запроса
+    console.log('Получен запрос на регистрацию:', req.body);
+    const { username, password, wishlist, giftLink } = req.body;
 
-    // Проверка существования файла participants.json
-    if (!fs.existsSync('participants.json')) {
-        fs.writeFileSync('participants.json', ''); // Создание файла, если он не существует
+    if (!username || !password || !wishlist) {
+        return res.status(400).json({ error: 'Пожалуйста, заполните все обязательные поля' });
     }
 
-    // Хэширование пароля перед сохранением
-    const saltRounds = 10;
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-        if (err) return res.status(500).send('Ошибка при хэшировании пароля');
+    try {
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // Сохранение данных в файл
-        const userData = { username, password: hash, wishlist }; // Сохраняем хэшированный пароль
-        fs.appendFile('participants.json', JSON.stringify(userData) + '\n', (err) => {
-            if (err) {
-                console.error('Ошибка при сохранении данных:', err);
-                return res.status(500).send('Ошибка при сохранении данных');
-            }
-            res.send('Данные успешно сохранены');
-        });
-    });
-});
+        const userData = {
+            username,
+            password: hashedPassword,
+            wishlist,
+            giftLink: giftLink || ''
+        };
 
-// Получение списка участников
-app.get('/participants', (req, res) => {
-    // Чтение данных из файла
-    fs.readFile('participants.json', 'utf8', (err, data) => {
-        if (err) {
-            console.error('Ошибка при чтении данных:', err);
-            return res.status(500).send('Ошибка при чтении данных');
+        let participants = [];
+        try {
+            const data = await fs.readFile('participants.json', 'utf8');
+            participants = JSON.parse(data);
+        } catch (error) {
+            console.log('Файл participants.json не найден или пуст, создаем новый массив');
         }
-        const participants = data.trim().split('\n').map(line => JSON.parse(line));
-        res.json(participants);
-    });
+
+        participants.push(userData);
+
+        await fs.writeFile('participants.json', JSON.stringify(participants, null, 2));
+        console.log('Пользователь успешно зарегистрирован:', username);
+
+        res.status(200).json({ message: 'Регистрация успешна' });
+    } catch (error) {
+        console.error('Подробная ошибка при регистрации:', error);
+        res.status(500).json({ error: `Ошибка при регистрации: ${error.message}` });
+    }
 });
 
-// Аутентификация через Яндекс
-app.get('/auth', (req, res) => {
-    const authUrl = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
-    res.redirect(authUrl);
-});
-
-app.get('/auth/callback', async (req, res) => {
-    const code = req.query.code;
-    const tokenResponse = await axios.post('https://oauth.yandex.ru/token', null, {
-        params: {
-            grant_type: 'authorization_code',
-            client_id: clientId,
-            client_secret: clientSecret,
-            code: code,
-            redirect_uri: redirectUri,
-        },
-    });
-
-    accessToken = tokenResponse.data.access_token;
-
-    // Теперь вы можете использовать accessToken для доступа к Яндекс Диску
-    const filesResponse = await axios.get('https://cloud-api.yandex.net/v1/disk/resources/files', {
-        headers: {
-            Authorization: `OAuth ${accessToken}`,
-        },
-    });
-
-    res.json(filesResponse.data); // Отправляем список файлов обратно клиенту
+app.get('/participants', async (req, res) => {
+    try {
+        const data = await fs.readFile('participants.json', 'utf8');
+        const participants = JSON.parse(data);
+        const safeParticipants = participants.map(({ username, wishlist, giftLink }) => ({ username, wishlist, giftLink }));
+        res.json(safeParticipants);
+    } catch (error) {
+        console.error('Ошибка при чтении данных:', error);
+        res.status(500).json({ error: 'Ошибка при чтении данных' });
+    }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Сервер запущен на порту ${PORT}`);
 });

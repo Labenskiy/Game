@@ -8,10 +8,10 @@ const bcrypt = require('bcrypt'); // Для хэширования пароле�
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const clientId = 'YOUR_CLIENT_ID'; // Ваш Client ID
-const clientSecret = 'YOUR_CLIENT_SECRET'; // Ваш Client Secret
-const redirectUri = 'YOUR_REDIRECT_URI'; // Ваш Redirect URI
-let accessToken; // Переменная для хранения токена доступа
+const clientId = 'f7b16acee6de462d97b884db5332b36d';
+const clientSecret = 'bd91e91206db4c79afdf24b4b6f5d2ba';
+const redirectUri = 'https://labenskiy.github.io/Odyssey/';
+let accessToken;
 
 app.use(bodyParser.json()); // Для обработки JSON запросов
 app.use(express.static(path.join(__dirname))); // Для обслуживания статических файлов

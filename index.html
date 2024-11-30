@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тайный Санта | Кино-клуб "Одиссея"</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Тайный Санта | Кино-клуб "Одиссея"</h1>
+    <nav id="user-nav" class="hidden">
+        <button onclick="showParticipants()">Участники</button>
+        <button onclick="showRules()">Правила</button>
+        <button onclick="logout()">Выйти</button>
+    </nav>
+</header>
+
+<div id="auth-container" class="auth-container">
+    <div id="login-form" class="auth-form">
+        <h2>Вход</h2>
+        <input type="text" id="login-username" placeholder="Логин" required>
+        <input type="password" id="login-password" placeholder="Пароль" required>
+        <button onclick="login()">Войти</button>
+        <p>Нет аккаунта? <a href="#" onclick="showRegistration()">Зарегистрироваться</a></p>
+    </div>
+
+    <div id="register-form" class="auth-form hidden">
+        <h2>Регистрация</h2>
+        <input type="text" id="reg-username" placeholder="Логин" required>
+        <input type="password" id="reg-password" placeholder="Пароль" required>
+        <button onclick="showAdditionalInfo()">Далее</button>
+        <p>Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a></p>
+    </div>
+
+    <div id="additional-info" class="auth-form hidden">
+        <h2>Дополнительная информация</h2>
+        <textarea id="wishlist" placeholder="Что хотите в подарок?" required></textarea>
+        <input type="url" id="gift-link" placeholder="Ссылка на желаемый подарок">
+        <input type="file" id="avatar" accept="image/*">
+        <button onclick="register()">Зарегистрироваться</button>
+    </div>
+</div>
+
+<div id="main-content" class="container hidden">
+    <div id="user-info"></div>
+    <div id="countdown">
+        До окончания игры осталось: <span id="time-left"></span>
+    </div>
+
+    <div id="participants-section" class="hidden">
+        <h2>Участники игры</h2>
+        <div id="participants-list" class="participants-grid"></div>
+    </div>
+
+    <div id="rules-section" class="hidden">
+        <h2>Правила игры "Тайный Санта"</h2>
+        <div class="rules-content">
+            <ol>
+                <li>Каждый участник получает случайного получателя подарка</li>
+                <li>Подарок должен быть анонимным</li>
+                <li>Стоимость подарка: 300-1500 рублей</li>
+                <li>Подарок должен быть куплен и отправлен до 25 декабря</li>
+                <li>Запрещены денежные переводы</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="club-info">
+        <h2>О кино-клубе "Одиссея"</h2>
+        <div class="club-details">
+            <p>Кино-клуб "Одиссея" - место встречи настоящих киноманов!</p>
+            <p>Мы проводим еженедельные просмотры и обсуждения фильмов</p>
+            <h3>Контакты:</h3>
+            <ul>
+                <li>📍 Адрес: г. Москва, ул. Киноманов, д. 10</li>
+                <li>📞 Телефон: +7 (495) 123-45-67</li>
+                <li>✉️ Email: odyssey.cinema@mail.ru</li>
+                <li>🌐 Сайт: www.odyssey-cinema.ru</li>
+            </ul>
+            <div class="social-links">
+                <a href="#" class="social-icon">Instagram</a>
+                <a href="#" class="social-icon">Telegram</a>
+                <a href="#" class="social-icon">VK</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="chat" class="hidden">
+    <h3>Чат участников</h3>
+    <div id="chat-messages"></div>
+    <input type="text" id="chat-input" placeholder="Введите сообщение">
+    <button onclick="sendMessage()">Отправить</button>
+</div>
+
+<script src="./code.js"></script>
+
+<script>
+    // JavaScript код для регистрации и загрузки участников
+
+    async function register() {
+        const username = document.getElementById('reg-username').value;
+        const wishlist = document.getElementById('wishlist').value;
+
+        // Отправка данных на сервер
+        await fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, wishlist }),
+        });
+
+        showMainContent();
+    }
+
+    async function loadParticipants() {
+        const response = await fetch('/participants');
+        const participants = await response.json();
+
+        const participantsList = document.getElementById('participants-list');
+        participantsList.innerHTML = ''; // Очистка списка
+
+        participants.forEach(participant => {
+            const participantCard = document.createElement('div');
+            participantCard.classList.add('participant-card');
+            participantCard.innerHTML = `
+           <h3>${participant.username}</h3>
+           <p>Вишлист: ${participant.wishlist}</p>`;
+            participantsList.appendChild(participantCard);
+        });
+    }
+
+    // Вызывайте loadParticipants() при загрузке страницы или после успешной регистрации
+    document.addEventListener("DOMContentLoaded", loadParticipants);
+</script>
+
+</body>
+</html>
+

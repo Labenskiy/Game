@@ -1,8 +1,9 @@
 const express = require('express');
 const axios = require('axios');
-const fs = require('fs'); // Для работы с файловой системой
+const fs = require('fs');
 const bodyParser = require('body-parser');
-const path = require('path'); // Для работы с путями
+const path = require('path');
+const bcrypt = require('bcrypt'); // Для хэширования паролей
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,16 +23,27 @@ app.get('/', (req, res) => {
 
 // Регистрация нового участника
 app.post('/register', async (req, res) => {
-    const { username, wishlist } = req.body;
+    const { username, password, wishlist } = req.body; // Получаем данные из запроса
 
-    // Сохранение данных в файл
-    const userData = { username, wishlist };
-    fs.appendFile('participants.json', JSON.stringify(userData) + '\n', (err) => {
-        if (err) {
-            console.error('Ошибка при сохранении данных:', err);
-            return res.status(500).send('Ошибка при сохранении данных');
-        }
-        res.send('Данные успешно сохранены');
+    // Проверка существования файла participants.json
+    if (!fs.existsSync('participants.json')) {
+        fs.writeFileSync('participants.json', ''); // Создание файла, если он не существует
+    }
+
+    // Хэширование пароля перед сохранением
+    const saltRounds = 10;
+    bcrypt.hash(password, saltRounds, (err, hash) => {
+        if (err) return res.status(500).send('Ошибка при хэшировании пароля');
+
+        // Сохранение данных в файл
+        const userData = { username, password: hash, wishlist }; // Сохраняем хэшированный пароль
+        fs.appendFile('participants.json', JSON.stringify(userData) + '\n', (err) => {
+            if (err) {
+                console.error('Ошибка при сохранении данных:', err);
+                return res.status(500).send('Ошибка при сохранении данных');
+            }
+            res.send('Данные успешно сохранены');
+        });
     });
 });
 

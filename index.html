@@ -30,16 +30,14 @@
         <h2>Регистрация</h2>
         <input type="text" id="reg-username" placeholder="Логин" required>
         <input type="password" id="reg-password" placeholder="Пароль" required>
-        <button onclick="showAdditionalInfo()">Далее</button>
+        <textarea id="wishlist" placeholder="Что хотите в подарок?" required></textarea>
+        <input type="url" id="gift-link" placeholder="Ссылка на желаемый подарок">
+        <button onclick="register()">Зарегистрироваться</button>
         <p>Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a></p>
     </div>
 
     <div id="additional-info" class="auth-form hidden">
-        <h2>Дополнительная информация</h2>
-        <textarea id="wishlist" placeholder="Что хотите в подарок?" required></textarea>
-        <input type="url" id="gift-link" placeholder="Ссылка на желаемый подарок">
-        <input type="file" id="avatar" accept="image/*">
-        <button onclick="register()">Зарегистрироваться</button>
+        <!-- Дополнительная информация может быть добавлена позже -->
     </div>
 </div>
 
@@ -61,17 +59,22 @@
             </ol>
         </div>
     </div>
+
     <div id="participants-section" class="hidden">
         <h2>Участники игры</h2>
         <div id="participants-list" class="participants-grid"></div>
     </div>
+
     <div id="rules-section" class="hidden">
         <h2>Правила игры "Тайный Санта"</h2>
     </div>
+
     <div id="club-info">
         <h2>О кино-клубе "Одиссея"</h2>
         <p>Кино-клуб "Одиссея" - место встречи настоящих киноманов!</p>
         <p>Мы проводим еженедельные просмотры и обсуждения фильмов.</p>
+
+        <!-- Контактная информация -->
         <h3>Контакты:</h3>
         <ul class="contact-info">
             <li>📍 Адрес: г. Москва, ул. Киноманов, д. 10</li>
@@ -79,21 +82,28 @@
             <li>✉️ Email: odyssey.cinema@mail.ru</li>
             <li>🌐 Сайт: www.odyssey-cinema.ru</li>
         </ul>
+
+        <!-- Социальные ссылки -->
         <div class="social-links">
             <a href="#" class="social-icon">Instagram</a>
             <a href="#" class="social-icon">Telegram</a>
             <a href="#" class="social-icon">VK</a>
         </div>
     </div>
+
 </div>
 
 <div id="chat">
+    <!-- Чат участников -->
     <h3>Чат участников</h3>
     <div id="chat-messages"></div>
+    <!-- Поле ввода сообщения -->
     <input type="text" id="chat-input" placeholder="Введите сообщение">
+    <!-- Кнопка отправки сообщения -->
     <button onclick="sendMessage()">Отправить</button>
 </div>
 
 <script src="./code.js"></script>
+
 </body>
 </html>

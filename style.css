@@ -29,7 +29,6 @@ h2, h3 {
     margin: 0 auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
 }
 
 .auth-container {
@@ -50,14 +49,12 @@ textarea {
     width: calc(100% - 22px);
     padding: 15px;
     margin-bottom: 15px;
-    border-radius: 5px;
 }
 
 button {
     background-color: #e74c3c;
     color: white;
     padding: 12px;
-    border-radius: 5px;
 }
 
 button:hover {
@@ -65,56 +62,41 @@ button:hover {
 }
 
 #info-window {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+    background-color :rgba(255,255,255,.9);
+    padding :20px;
 }
 
 .instructions {
-    margin-top: 15px;
+    margin-top :15px;
 }
 
 #chat {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    height: auto;
-    max-height: 400px;
-    overflow-y: auto;
-    background-color: rgba(44, 62, 80, 0.8);
-    border-radius: 10px;
-    padding: 10px;
+    position :fixed;
+    bottom :20px;
+    right :20px;
+    width :300px;
+    max-height :400px;
+    overflow-y :auto;
+    background-color :rgba(44,62,80,.8);
+    border-radius :10px;
+    padding :10px;
 }
 
 #chat-messages {
-    height: 200px;
-    overflow-y: auto;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    padding: 10px;
+    height :200px;
+    overflow-y:auto;
+    background-color :rgba(255,255,255,.1);
+    border-radius :5px;
+    padding :10px;
 }
 
-#countdown {
-    text-align: center;
-    font-size: 24px;
-}
+.hidden { display:none; }
 
-.hidden {
-    display: none;
-}
-
-.participants-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
+.participants-grid { display:flex; flex-wrap:wrap; gap :20px; }
 
 .participant-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
+    background-color :rgba(255,255,255,.1);
+    border-radius :10px;
+    padding :15px;
+    text-align:center;
 }

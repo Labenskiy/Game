@@ -10,11 +10,6 @@ function showRegistration() {
     document.getElementById('additional-info').classList.add('hidden');
 }
 
-function showAdditionalInfo() {
-    document.getElementById('register-form').classList.add('hidden');
-    document.getElementById('additional-info').classList.remove('hidden');
-}
-
 async function login() {
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
@@ -22,38 +17,34 @@ async function login() {
     showMainContent();
 }
 
+// Обновленная функция регистрации с использованием OAuth
 async function register() {
     const username = document.getElementById('reg-username').value.trim();
     const password = document.getElementById('reg-password').value;
     const wishlist = document.getElementById('wishlist').value.trim();
     const giftLink = document.getElementById('gift-link').value.trim();
 
-    if (!username || !password || !wishlist) {
-        alert('Пожалуйста, заполните все обязательные поля');
+    // Проверка на заполненность обязательных полей
+    if (!username) {
+        alert('Пожалуйста, введите логин.');
+        return;
+    }
+    if (!password) {
+        alert('Пожалуйста, введите пароль.');
+        return;
+    }
+    if (!wishlist) {
+        alert('Пожалуйста, заполните вишлист.');
         return;
     }
 
-    try {
-        const response = await fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password, wishlist, giftLink }),
-        });
+    // URL для авторизации с указанием scopes
+    const authUrl = `/`;
 
-        const result = await response.json();
+    // Перенаправляем пользователя на страницу авторизации
+    window.location.href = authUrl;
 
-        if (response.ok) {
-            alert(result.message);
-            showMainContent();
-        } else {
-            alert(`Ошибка при регистрации: ${result.error || 'Неизвестная ошибка'}`);
-        }
-    } catch (error) {
-        console.error('Ошибка:', error);
-        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.');
-    }
+    // После успешной авторизации GitHub перенаправит пользователя обратно на ваш callback URL
 }
 
 function showMainContent() {
@@ -73,9 +64,8 @@ async function loadParticipants() {
             const participantCard = document.createElement('div');
             participantCard.classList.add('participant-card');
             participantCard.innerHTML = `
-                <h3>${participant.username}</h3>
-                <p>Вишлист: ${participant.wishlist}</p>
-            `;
+                 <h3>${participant.username}</h3>
+                 <p>Вишлист: ${participant.wishlist}</p>`;
             participantsList.appendChild(participantCard);
         });
     } catch (error) {
@@ -101,15 +91,14 @@ function logout() {
 }
 
 function sendMessage() {
-    const messageInput = document.getElementById('chat-input');
+    const messageInput = document.getElementById("chat-input");
     const message = messageInput.value;
     if (message.trim()) {
-        const chatMessages = document.getElementById('chat-messages');
+        const chatMessages = document.getElementById("chat-messages");
         chatMessages.innerHTML += `<p>${message}</p>`;
-        messageInput.value = '';
+        messageInput.value = "";
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    showLogin();
-});
+// Инициализация страницы
+document.addEventListener("DOMContentLoaded", () => { showLogin(); });

@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+const fetch = require('node-fetch'); // Убедитесь, что у вас установлен node-fetch
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 
@@ -12,6 +13,52 @@ app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Обработка регистрации через GitHub OAuth
+app.get('/callback', async (req, res) => {
+    const code = req.query.code;
+
+    try {
+        const response = await fetch('https://github.com/login/oauth/access_token', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                client_id: YOUR_CLIENT_ID,
+                client_secret: YOUR_CLIENT_SECRET,
+                code,
+            }),
+        });
+
+        const data = await response.json();
+        const accessToken = data.access_token;
+
+        if (accessToken) {
+            const userResponse = await fetch('https://api.github.com/user', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'User-Agent': 'MyApp/1.0'
+                }
+            });
+
+            const userData = await userResponse.json();
+
+            // Здесь вы можете сохранить информацию о пользователе и его wishlist
+            // Например:
+            // const wishlist = req.query.wishlist; // Получите вишлист из запроса
+            // Сохраните данные пользователя и wishlist в participants.json или базе данных
+
+            res.send(`Вы успешно зарегистрированы как ${userData.login}!`);
+        } else {
+            res.status(400).send('Ошибка при получении токена доступа.');
+        }
+    } catch (error) {
+        console.error('Ошибка при получении токена:', error);
+        res.status(500).send('Произошла ошибка при регистрации.');
+    }
 });
 
 app.post('/register', async (req, res) => {
@@ -57,7 +104,7 @@ app.get('/participants', async (req, res) => {
     try {
         const data = await fs.readFile('participants.json', 'utf8');
         const participants = JSON.parse(data);
-        const safeParticipants = participants.map(({ username, wishlist, giftLink }) => ({ username, wishlist, giftLink }));
+        const safeParticipants = participants.map(({ username, wishlist }) => ({ username, wishlist }));
         res.json(safeParticipants);
     } catch (error) {
         console.error('Ошибка при чтении данных:', error);

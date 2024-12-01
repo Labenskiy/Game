@@ -23,10 +23,10 @@ async function login() {
 }
 
 async function register() {
-    const username = document.getElementById('reg-username').value;
+    const username = document.getElementById('reg-username').value.trim();
     const password = document.getElementById('reg-password').value;
-    const wishlist = document.getElementById('wishlist').value;
-    const giftLink = document.getElementById('gift-link').value;
+    const wishlist = document.getElementById('wishlist').value.trim();
+    const giftLink = document.getElementById('gift-link').value.trim();
 
     if (!username || !password || !wishlist) {
         alert('Пожалуйста, заполните все обязательные поля');
@@ -42,17 +42,17 @@ async function register() {
             body: JSON.stringify({ username, password, wishlist, giftLink }),
         });
 
+        const result = await response.json();
+
         if (response.ok) {
-            const result = await response.json();
             alert(result.message);
             showMainContent();
         } else {
-            const errorData = await response.json();
-            alert(`Ошибка при регистрации: ${errorData.error}`);
+            alert(`Ошибка при регистрации: ${result.error || 'Неизвестная ошибка'}`);
         }
     } catch (error) {
         console.error('Ошибка:', error);
-        alert('Произошла ошибка при регистрации');
+        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.');
     }
 }
 

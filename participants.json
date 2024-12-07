@@ -1,8 +1,8 @@
 [
   {
-    "username": "Stanislav",
-    "password": "$2b$10$2nyW8f55fMYXpu.m7cwy8OcLRJ5obXMu8E4yfvBGPYOPezhARCv8O",
-    "wishlist": "кораблик",
-    "giftLink": "ссылка"
+    "username": "Geek",
+    "password": "$2b$10$Jj.x3W/PCRL2XrfllCtpFuS3ORiOXxOfY68cvd6DQ.ndEbYJ52CmG",
+    "wishlist": "[yup[",
+    "giftLink": "http://localhost:3000"
   }
 ]

@@ -1,10 +1,10 @@
-function showLogin() {
+async function showLogin() {
     document.getElementById('login-form').classList.remove('hidden');
     document.getElementById('register-form').classList.add('hidden');
     document.getElementById('additional-info').classList.add('hidden');
 }
 
-function showRegistration() {
+async function showRegistration() {
     document.getElementById('login-form').classList.add('hidden');
     document.getElementById('register-form').classList.remove('hidden');
     document.getElementById('additional-info').classList.add('hidden');
@@ -13,38 +13,61 @@ function showRegistration() {
 async function login() {
     const username = document.getElementById('login-username').value;
     const password = document.getElementById('login-password').value;
-    console.log('Попытка входа:', username);
-    showMainContent();
+
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showMainContent();
+        } else {
+            alert(data.error || 'Ошибка при входе');
+        }
+    } catch (error) {
+        console.error('Ошибка при входе:', error);
+        alert('Произошла ошибка при входе');
+    }
 }
 
-// Обновленная функция регистрации с использованием OAuth
 async function register() {
     const username = document.getElementById('reg-username').value.trim();
     const password = document.getElementById('reg-password').value;
     const wishlist = document.getElementById('wishlist').value.trim();
     const giftLink = document.getElementById('gift-link').value.trim();
 
-    // Проверка на заполненность обязательных полей
-    if (!username) {
-        alert('Пожалуйста, введите логин.');
-        return;
-    }
-    if (!password) {
-        alert('Пожалуйста, введите пароль.');
-        return;
-    }
-    if (!wishlist) {
-        alert('Пожалуйста, заполните вишлист.');
+    if (!username || !password || !wishlist) {
+        alert('Пожалуйста, заполните все обязательные поля.');
         return;
     }
 
-    // URL для авторизации с указанием scopes
-    const authUrl = `/`;
+    try {
+        const response = await fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password, wishlist, giftLink }),
+        });
 
-    // Перенаправляем пользователя на страницу авторизации
-    window.location.href = authUrl;
+        const data = await response.json();
 
-    // После успешной авторизации GitHub перенаправит пользователя обратно на ваш callback URL
+        if (response.ok) {
+            alert('Регистрация успешна!');
+            showLogin();
+        } else {
+            alert(data.error || 'Произошла ошибка при регистрации');
+        }
+    } catch (error) {
+        console.error('Ошибка при регистрации:', error);
+        alert('Произошла ошибка при регистрации. Пожалуйста, попробуйте позже.');
+    }
 }
 
 function showMainContent() {
@@ -97,6 +120,21 @@ function sendMessage() {
         const chatMessages = document.getElementById("chat-messages");
         chatMessages.innerHTML += `<p>${message}</p>`;
         messageInput.value = "";
+    }
+}
+
+async function generateSantaPairs() {
+    try {
+        const response = await fetch('/generate-santa-pairs', { method: 'POST' });
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message);
+        } else {
+            alert(data.error || 'Ошибка при генерации пар');
+        }
+    } catch (error) {
+        console.error('Ошибка при генерации пар:', error);
+        alert('Произошла ошибка при генерации пар');
     }
 }
 

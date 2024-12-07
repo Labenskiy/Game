@@ -27,7 +27,7 @@ app.post('/register', async (req, res) => {
             const data = await fs.readFile('participants.json', 'utf8');
             participants = JSON.parse(data);
         } catch (error) {
-            console.log('Файл participants.json не найден или пуст, создаем новый массив');
+            console.log('Файл participants.json не найден или пуст.');
         }
 
         if (participants.some(user => user.username === username)) {
@@ -35,7 +35,7 @@ app.post('/register', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const userData = { username, password: hashedPassword, wishlist, giftLink: giftLink || '' };
+        const userData = { username, password: hashedPassword, wishlist, giftLink };
 
         participants.push(userData);
         await fs.writeFile('participants.json', JSON.stringify(participants, null, 2));
@@ -82,13 +82,18 @@ app.post('/generate-santa-pairs', async (req, res) => {
     try {
         const data = await fs.readFile('participants.json', 'utf8');
         const participants = JSON.parse(data);
-        const shuffled = [...participants].sort(() => 0.5 - Math.random());
+
+        // Перемешивание участников
+        const shuffled = [...participants].sort(() => Math.random() - 0.5);
+
+        // Генерация пар
         const pairs = shuffled.map((santa, index) => ({
             santa: santa.username,
             recipient: shuffled[(index + 1) % shuffled.length].username
         }));
 
         await fs.writeFile('santa_assignments.json', JSON.stringify(pairs, null, 2));
+
         res.json({ message: 'Пары Тайного Санты сгенерированы' });
     } catch (error) {
         console.error('Ошибка при генерации пар:', error);

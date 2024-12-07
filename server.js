@@ -8,10 +8,18 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname))); // Статические файлы
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'register.html'));
+});
+
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 app.post('/register', async (req, res) => {

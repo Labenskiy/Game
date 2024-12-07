@@ -4,5 +4,11 @@
     "password": "$2b$10$Jj.x3W/PCRL2XrfllCtpFuS3ORiOXxOfY68cvd6DQ.ndEbYJ52CmG",
     "wishlist": "Я админ и не учавствую",
     "giftLink": "http://localhost:3000"
+  },
+  {
+    "username": "Geet",
+    "password": "$2b$10$mPUmfm5.2NdoB1PpfqUeDOBB/Cq2VU8GYI0u/BDiaqcsDXSwEeV1C",
+    "wishlist": "swfdaes",
+    "giftLink": "fewfde"
   }
 ]

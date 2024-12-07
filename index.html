@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тайный Санта | Кино-клуб "Одиссея"</title>
+    <title>Тайный Санта | Главная</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
     <h1>Тайный Санта</h1>
-    <h2>Кино-клуб "Одиссея"</h2>
-    <nav id="user-nav" class="hidden">
+    <nav id="user-nav">
         <button onclick="showParticipants()">Участники</button>
         <button onclick="showRules()">Правила</button>
         <button onclick="generateSantaPairs()">Сгенерировать пары</button>
@@ -18,33 +17,9 @@
     </nav>
 </header>
 
-<div id="auth-container" class="auth-container">
-    <div id="login-form" class="auth-form">
-        <h2>Вход</h2>
-        <input type="text" id="login-username" placeholder="Логин" required>
-        <input type="password" id="login-password" placeholder="Пароль" required>
-        <button onclick="login()">Войти</button>
-        <p>Нет аккаунта? <a href="#" onclick="showRegistration()">Зарегистрироваться</a></p>
-    </div>
-
-    <div id="register-form" class="auth-form hidden">
-        <h2>Регистрация</h2>
-        <input type="text" id="reg-username" placeholder="Логин" required>
-        <input type="password" id="reg-password" placeholder="Пароль" required>
-        <textarea id="wishlist" placeholder="Что хотите в подарок?" required></textarea>
-        <input type="url" id="gift-link" placeholder="Ссылка на желаемый подарок">
-        <button onclick="register()">Зарегистрироваться</button>
-        <p>Уже есть аккаунт? <a href="#" onclick="showLogin()">Войти</a></p>
-    </div>
-</div>
-
-<div id="main-content" class="container hidden">
-    <div id="user-info"></div>
+<div id="main-content" class="container">
     <div id="info-window">
         <h2>Информация о Тайном Санте</h2>
-        <div id="countdown">
-            До начала Тайного Санты осталось: <span id="time-left"></span>
-        </div>
         <div class="instructions">
             <h3>Краткая инструкция:</h3>
             <ol>
@@ -80,11 +55,6 @@
         <div id="chat-messages"></div>
         <input type="text" id="chat-input" placeholder="Введите сообщение">
         <button onclick="sendMessage()">Отправить</button>
-    </div>
-
-    <!-- Информация о кино-клубе -->
-    <div id="club-info">
-        <!-- Содержимое клуба здесь -->
     </div>
 
 </div>
